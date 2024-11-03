@@ -1,0 +1,34 @@
+# Installing Apache with Configuration and Service Checks
+
+- name: Install and configure Apache on web servers
+  hosts: web_servers
+  become: yes
+  vars:
+    apache_conf_file: /etc/httpd/conf/httpd.conf
+
+  tasks:
+    - name: Install Apache
+      yum:
+        name: httpd
+        state: present
+
+    - name: Copy custom configuration for Apache
+      copy:
+        src: files/custom_httpd.conf
+        dest: "{{ apache_conf_file }}"
+        owner: root
+        group: root
+        mode: '0644'
+      notify: Restart Apache
+
+    - name: Ensure Apache is enabled and running
+      service:
+        name: httpd
+        state: started
+        enabled: true
+
+  handlers:
+    - name: Restart Apache
+      service:
+        name: httpd
+        state: restarted
