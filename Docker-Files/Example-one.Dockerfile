@@ -1,3 +1,7 @@
+# Difference Between CMD and ENTRYPOINT
+# CMD: Provides default arguments to the container that can be overridden at runtime.
+# ENTRYPOINT: Defines the command that always runs, and can accept additional arguments.
+
 # Use Ubuntu as the base image
 FROM ubuntu:latest
 
