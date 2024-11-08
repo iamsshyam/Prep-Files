@@ -1,32 +1,9 @@
-- name: Check and create file if not exists
+- name: Gather system information, check uptime, and verify file existence
   hosts: all
+  become: yes
+  gather_facts: yes  # Enables fact gathering
+
   tasks:
-    - name: Check if file exists
-      stat:
-        path: /etc/example.conf
-      register: file_check
-
-    - name: Create file if it does not exist
-      file:
-        path: /etc/example.conf
-        state: touch
-      when: not file_check.stat.exists
-
-
-#Example
-
-    - name: Install Apache
-      yum:
-        name: httpd
-        state: present
-      register: apache_install
-
-    - name: Start Apache if installation succeeded
-      service:
-        name: httpd
-        state: started
-      when: apache_install.changed
-
     - name: Display basic system information
       debug:
         msg:
